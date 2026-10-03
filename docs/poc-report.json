@@ -1,0 +1,293 @@
+{
+  "generatedAt": "2026-10-03T21:25:00.699Z",
+  "baseUrl": "https://developers.hostinger.com",
+  "path": "/api/mail/v1/orders/{orderId}/logs/outbound",
+  "firstCall": {
+    "status": 200,
+    "rateLimitHeaders": {
+      "ratelimit": "\"api\";r=89;t=60",
+      "ratelimit-policy": "\"api\";q=90;w=60",
+      "x-ratelimit-limit": "90",
+      "x-ratelimit-remaining": "89"
+    },
+    "contentType": "application/json"
+  },
+  "recordsKey": "data",
+  "shape": {
+    "data": [
+      {
+        "account": "string",
+        "rcpt": "string",
+        "rcpts": "string",
+        "client_ip": "string",
+        "from": "string",
+        "nrcpt": "string",
+        "timestamp": "string",
+        "relay_events": [
+          {
+            "address_to": "string",
+            "relay": "string",
+            "delay": "string",
+            "dsn": "string",
+            "status": "string",
+            "response": "string",
+            "time": "string"
+          }
+        ],
+        "status": "string",
+        "is_spam": "boolean"
+      }
+    ],
+    "meta": {
+      "current_page": "number",
+      "per_page": "number",
+      "total": "number"
+    }
+  },
+  "paginationMeta": {
+    "meta": {
+      "current_page": 1,
+      "per_page": 5,
+      "total": 289
+    }
+  },
+  "perPage100": {
+    "status": 200,
+    "count": 100,
+    "meta": {
+      "meta": {
+        "current_page": 1,
+        "per_page": 100,
+        "total": 289
+      }
+    }
+  },
+  "perPage101": {
+    "status": 200,
+    "count": 101
+  },
+  "page2": {
+    "status": 200,
+    "count": 5,
+    "meta": {
+      "meta": {
+        "current_page": 2,
+        "per_page": 5,
+        "total": 289
+      }
+    }
+  },
+  "fieldTypes": {
+    "account": "string",
+    "rcpt": "string",
+    "rcpts": "string",
+    "client_ip": "string",
+    "from": "string",
+    "nrcpt": "string",
+    "timestamp": "string",
+    "relay_events": "array",
+    "status": "string",
+    "is_spam": "boolean"
+  },
+  "fieldPresence": {
+    "account": "100/100",
+    "rcpt": "100/100",
+    "rcpts": "100/100",
+    "client_ip": "100/100",
+    "from": "100/100",
+    "nrcpt": "100/100",
+    "timestamp": "100/100",
+    "relay_events": "100/100",
+    "status": "100/100",
+    "is_spam": "100/100"
+  },
+  "idCandidates": [],
+  "idStability": [],
+  "timestampSamples": {
+    "timestamp": [
+      "2026-10-03T21:08:33Z",
+      "2026-10-03T21:04:32Z",
+      "2026-10-03T21:03:07Z"
+    ]
+  },
+  "statusField": "status",
+  "statusValuesSeen": [
+    "Delivered"
+  ],
+  "lowCardinalityValues": {
+    "nrcpt": [
+      "1"
+    ],
+    "status": [
+      "Delivered"
+    ],
+    "is_spam": [
+      "false"
+    ]
+  },
+  "clientIpField": "client_ip",
+  "clientIpDistinct": 50,
+  "relayEvents": {
+    "field": "relay_events",
+    "total": 100,
+    "perRecord": {
+      "min": 1,
+      "max": 1
+    },
+    "fields": {
+      "address_to": "string",
+      "relay": "string",
+      "delay": "string",
+      "dsn": "string",
+      "status": "string",
+      "response": "string",
+      "time": "string"
+    },
+    "statusValues": [
+      "Sent"
+    ],
+    "example": {
+      "address_to": "s***@r***.in",
+      "relay": "smtp.mailchannels.net[35.166.226.169]:587",
+      "delay": "8.1",
+      "dsn": "2.0.0",
+      "status": "Sent",
+      "response": "250 2.0.0 Ok: queued as DF4807A0D88",
+      "time": "2026-10-03T21:08:41Z"
+    }
+  },
+  "filters": [
+    {
+      "name": "status=Failed",
+      "http": 200,
+      "count": 0,
+      "verdict": "works"
+    },
+    {
+      "name": "status=Successful",
+      "http": 200,
+      "count": 100,
+      "verdict": "accepted; all rows match (cannot prove filtering, sample too uniform)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-01T19:43:01Z"
+      }
+    },
+    {
+      "name": "recipient=<domain of first record>",
+      "http": 200,
+      "count": 90,
+      "verdict": "works",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-09-16T15:16:28Z"
+      }
+    },
+    {
+      "name": "recipient=<full address of first record>",
+      "http": 200,
+      "count": 1,
+      "verdict": "works",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-03T21:08:33Z"
+      }
+    },
+    {
+      "name": "sender=<sender of first record>",
+      "http": 200,
+      "count": 100,
+      "verdict": "accepted; all rows match (cannot prove filtering, sample too uniform)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-01T19:43:01Z"
+      }
+    },
+    {
+      "name": "account=<account of first record>",
+      "http": 200,
+      "count": 100,
+      "verdict": "accepted; all rows match (cannot prove filtering, sample too uniform)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-01T19:43:01Z"
+      }
+    },
+    {
+      "name": "from_date/to_date (RFC3339, last 48h)",
+      "http": 200,
+      "count": 87,
+      "verdict": "accepted (inspect timestamp range)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-01T21:25:58Z"
+      }
+    },
+    {
+      "name": "from_date/to_date (YYYY-MM-DD)",
+      "http": 200,
+      "count": 100,
+      "verdict": "accepted (inspect timestamp range)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-01T19:43:01Z"
+      }
+    },
+    {
+      "name": "date=today (YYYY-MM-DD)",
+      "http": 200,
+      "count": 41,
+      "verdict": "accepted (inspect timestamp range)",
+      "range": {
+        "newest": "2026-10-03T21:08:33Z",
+        "oldest": "2026-10-03T06:35:01Z"
+      }
+    }
+  ],
+  "fullScan": {
+    "pagesFetched": 3,
+    "recordsFetched": 289,
+    "metaTotal": 289,
+    "pageBeyondLast": {
+      "http": 200,
+      "count": 0
+    },
+    "sortedDescByTimestamp": true,
+    "oldest": "2026-09-15T16:45:20Z",
+    "newest": "2026-10-03T21:08:33Z",
+    "statusCounts": {
+      "Delivered": 289
+    },
+    "isSpamCounts": {
+      "false": 279,
+      "true": 10
+    },
+    "nrcptCounts": {
+      "1": 289
+    },
+    "rcptEqualsRcpts": 289,
+    "rcptsWithMultiple": 0,
+    "accountEqualsFrom": 124,
+    "distinctAccounts": 1,
+    "distinctClientIps": 86,
+    "relayEventsPerRecord": {
+      "1": 289
+    },
+    "relayStatusCounts": {
+      "Sent": 289
+    },
+    "relayDsnCounts": {
+      "2.0.0": 289
+    },
+    "relayDelayNonNumeric": [],
+    "timestampFormats": {
+      "9999-99-99T99:99:99Z": 289
+    },
+    "relayTimeFormats": {
+      "9999-99-99T99:99:99Z": 289
+    },
+    "fingerprintCollisions_withRelayTime": 0,
+    "fingerprintCollisions_withoutRelayTime": 0,
+    "nonDeliveredExamples": []
+  }
+}

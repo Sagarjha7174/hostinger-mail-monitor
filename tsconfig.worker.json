@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "./dist",
+    "isolatedModules": false
+  },
+  "include": ["worker/**/*", "src/lib/**/*", "src/lib/hostinger/**/*", "src/lib/sync/**/*"]
+}

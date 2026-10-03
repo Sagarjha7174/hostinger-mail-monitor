@@ -1,0 +1,48 @@
+# Database: Supabase (managed Postgres) — no local DB container.
+# DATABASE_URL / DIRECT_URL come from .env.
+#
+#   docker compose up -d --build     # migrate, then app + worker
+services:
+  migrate:
+    build: { context: ., target: runner }
+    command: ["npx", "prisma", "migrate", "deploy"]
+    env_file: .env
+    restart: "no"
+
+  app:
+    build: { context: ., target: runner }
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build: { context: ., target: runner }
+    restart: unless-stopped
+    command: ["npm", "run", "worker"]
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
+  proxy:
+    build: { context: ., target: runner }
+    restart: unless-stopped
+    command: ["npm", "run", "proxy"]
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    ports:
+      - "2465:2465"
+    depends_on:
+      migrate: { condition: service_completed_successfully }

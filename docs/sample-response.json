@@ -1,0 +1,119 @@
+{
+  "data": [
+    {
+      "account": "i***@s***.in",
+      "rcpt": "s***@r***.in",
+      "rcpts": "s***@r***.in",
+      "client_ip": "3.216.123.63",
+      "from": "n***@s***.in",
+      "nrcpt": "1",
+      "timestamp": "2026-10-03T21:08:33Z",
+      "relay_events": [
+        {
+          "address_to": "s***@r***.in",
+          "relay": "smtp.mailchannels.net[35.166.226.169]:587",
+          "delay": "8.1",
+          "dsn": "2.0.0",
+          "status": "Sent",
+          "response": "250 2.0.0 Ok: queued as DF4807A0D88",
+          "time": "2026-10-03T21:08:41Z"
+        }
+      ],
+      "status": "Delivered",
+      "is_spam": false
+    },
+    {
+      "account": "i***@s***.in",
+      "rcpt": "a***@r***.in",
+      "rcpts": "a***@r***.in",
+      "client_ip": "3.216.123.63",
+      "from": "n***@s***.in",
+      "nrcpt": "1",
+      "timestamp": "2026-10-03T21:04:32Z",
+      "relay_events": [
+        {
+          "address_to": "a***@r***.in",
+          "relay": "smtp.mailchannels.net[35.166.226.169]:587",
+          "delay": "4.1",
+          "dsn": "2.0.0",
+          "status": "Sent",
+          "response": "250 2.0.0 Ok: queued as 5E76F381898",
+          "time": "2026-10-03T21:04:36Z"
+        }
+      ],
+      "status": "Delivered",
+      "is_spam": false
+    },
+    {
+      "account": "i***@s***.in",
+      "rcpt": "s***@r***.in",
+      "rcpts": "s***@r***.in",
+      "client_ip": "3.216.123.63",
+      "from": "n***@s***.in",
+      "nrcpt": "1",
+      "timestamp": "2026-10-03T21:03:07Z",
+      "relay_events": [
+        {
+          "address_to": "s***@r***.in",
+          "relay": "smtp.mailchannels.net[35.160.12.29]:587",
+          "delay": "8.3",
+          "dsn": "2.0.0",
+          "status": "Sent",
+          "response": "250 2.0.0 Ok: queued as 185748C27FC",
+          "time": "2026-10-03T21:03:14Z"
+        }
+      ],
+      "status": "Delivered",
+      "is_spam": false
+    },
+    {
+      "account": "i***@s***.in",
+      "rcpt": "d***@s***.in",
+      "rcpts": "d***@s***.in",
+      "client_ip": "34.230.27.30",
+      "from": "n***@s***.in",
+      "nrcpt": "1",
+      "timestamp": "2026-10-03T20:57:31Z",
+      "relay_events": [
+        {
+          "address_to": "d***@s***.in",
+          "relay": "smtp.mailchannels.net[35.166.226.169]:587",
+          "delay": "8.3",
+          "dsn": "2.0.0",
+          "status": "Sent",
+          "response": "250 2.0.0 Ok: queued as 4D39A460FE5",
+          "time": "2026-10-03T20:57:39Z"
+        }
+      ],
+      "status": "Delivered",
+      "is_spam": false
+    },
+    {
+      "account": "i***@s***.in",
+      "rcpt": "s***@r***.in",
+      "rcpts": "s***@r***.in",
+      "client_ip": "34.230.27.30",
+      "from": "n***@s***.in",
+      "nrcpt": "1",
+      "timestamp": "2026-10-03T20:55:43Z",
+      "relay_events": [
+        {
+          "address_to": "s***@r***.in",
+          "relay": "smtp.mailchannels.net[35.166.226.169]:587",
+          "delay": "4.3",
+          "dsn": "2.0.0",
+          "status": "Sent",
+          "response": "250 2.0.0 Ok: queued as 99E75720C1B",
+          "time": "2026-10-03T20:55:47Z"
+        }
+      ],
+      "status": "Delivered",
+      "is_spam": false
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "per_page": 5,
+    "total": 289
+  }
+}

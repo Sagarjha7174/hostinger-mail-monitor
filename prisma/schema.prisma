@@ -1,0 +1,145 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  /// Supabase transaction pooler (port 6543, ?pgbouncer=true) used at runtime
+  url       = env("DATABASE_URL")
+  /// Supabase session pooler / direct connection (port 5432) used by migrations and the sync lock
+  directUrl = env("DIRECT_URL")
+}
+
+/// Sending mailbox observed in Hostinger logs (`account` field).
+model MailAccount {
+  id               Int            @id @default(autoincrement())
+  email            String         @unique
+  domain           String
+  hostingerOrderId String
+  createdAt        DateTime       @default(now())
+  messages         EmailMessage[]
+}
+
+/// One Hostinger outbound log record. Hostinger exposes no stable record ID
+/// (verified in Phase 0), so `fingerprint` is the dedupe key.
+model EmailMessage {
+  id              String       @id @default(cuid())
+  fingerprint     String       @unique
+  account         String
+  /// Hostinger `from`
+  sender          String
+  /// Hostinger `rcpt`
+  recipient       String
+  /// Hostinger `rcpts` (equal to rcpt in all observed data)
+  recipients      String?
+  /// Hostinger `nrcpt` (string in API, parsed)
+  recipientCount  Int?
+  recipientDomain String
+  timestamp       DateTime
+  /// Raw Hostinger status value (only "Delivered" observed so far). Classified by src/lib/status.ts.
+  status          String
+  isSpam          Boolean      @default(false)
+  /// IPv4 or IPv6
+  clientIp        String?
+  /// Inferred from ProjectMapping. Never authoritative.
+  projectLabel    String?
+  raw             Json
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  relayEvents     RelayEvent[]
+  mailAccountId   Int?
+  mailAccount     MailAccount? @relation(fields: [mailAccountId], references: [id])
+  content         MessageContent?
+
+  @@index([timestamp])
+  @@index([status, timestamp])
+  @@index([recipientDomain])
+  @@index([account, timestamp])
+  @@index([clientIp])
+  @@index([sender])
+  @@index([projectLabel])
+}
+
+model MessageContent {
+  id              String   @id @default(cuid())
+  emailMessageId  String?  @unique
+  proxyAccount    String?
+  messageIdHeader String?
+  sentAt          DateTime
+  fromAddr        String
+  toAddrs         String[]
+  ccAddrs         String[]
+  subject         String
+  bodyTextEnc     Bytes?
+  bodyHtmlEnc     Bytes?
+  attachments     Json
+  matchConfidence String?
+  createdAt       DateTime @default(now())
+  message         EmailMessage? @relation(fields: [emailMessageId], references: [id], onDelete: SetNull)
+
+  @@index([sentAt])
+  @@index([fromAddr, sentAt])
+}
+
+model RelayEvent {
+  id             String       @id @default(cuid())
+  emailMessageId String
+  /// position within the Hostinger relay_events array
+  position       Int          @default(0)
+  addressTo      String?
+  relay          String?
+  delay          Float?
+  dsn            String?
+  status         String?
+  response       String?
+  eventTime      DateTime?
+  message        EmailMessage @relation(fields: [emailMessageId], references: [id], onDelete: Cascade)
+
+  @@index([emailMessageId])
+}
+
+model SyncRun {
+  id              String    @id @default(cuid())
+  startedAt       DateTime  @default(now())
+  finishedAt      DateTime?
+  /// backfill | incremental | manual
+  mode            String
+  windowFrom      DateTime?
+  windowTo        DateTime?
+  recordsFetched  Int       @default(0)
+  recordsInserted Int       @default(0)
+  recordsUpdated  Int       @default(0)
+  recordsInvalid  Int       @default(0)
+  pagesFetched    Int       @default(0)
+  /// running | success | partial | failed | skipped
+  status          String
+  error           String?
+
+  @@index([startedAt])
+}
+
+/// Project attribution rule. Hostinger logs carry no project name; this is inference only.
+/// matchType: "ip" (exact client IP), "cidr" (IPv4/IPv6 range), "sender" (exact from address).
+/// Resolution order: ip > cidr (longest prefix) > sender.
+model ProjectMapping {
+  id        Int      @id @default(autoincrement())
+  matchType String   @default("ip")
+  pattern   String
+  label     String
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([matchType, pattern])
+}
+
+/// Single row, key = "default"
+model SyncState {
+  key               String    @id
+  lastSuccessfulAt  DateTime?
+  backfillCompleted Boolean   @default(false)
+  lastPrunedAt      DateTime?
+  /// heartbeat written by the worker on every tick (liveness)
+  workerHeartbeatAt DateTime?
+}

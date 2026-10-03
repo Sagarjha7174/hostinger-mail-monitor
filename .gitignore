@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# poc artefacts that may contain unmasked data
+docs/poc-report.local.json
+
+.DS_Store
+npm-debug.log*
+.vercel
+*.pem
